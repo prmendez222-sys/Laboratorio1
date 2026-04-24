@@ -1,4 +1,37 @@
-﻿class Prestamo
+﻿using System;
+using System.IO;
+Dictionary<int,Prestamo> prestamos = new Dictionary<int,Prestamo>();
+
+string ruta = Path.Combine
+              (
+                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                 "prestamos.txt"
+              );
+
+string opcion;
+do
+{
+    Console.WriteLine("1. Realizar un Prestamo");
+    Console.WriteLine("2. ver los Prestamos realizados");
+    Console.WriteLine("3. Salir");
+    Console.WriteLine();
+    Console.Write("ingrese una opcion: ");
+    opcion = Console.ReadLine();
+    Console.Clear();
+    switch (opcion)
+    {
+        case "1":
+            bool error;
+
+            do
+            {
+
+            } while (!error);
+            break;
+    }
+    Console.Clear();
+} while (opcion!="3");
+class Prestamo
 {
     private int codigo;
     private string nombre;
@@ -64,6 +97,20 @@
         Estado = estado;
     }
 
+    public string ObtenerDatos()
+    {
+        return "codigo: " + Codigo + Environment.NewLine +
+               "Nombre: " + Nombre + Environment.NewLine +
+               "carnet: " + Carnet + Environment.NewLine +
+               "carrera: " + Carrera + Environment.NewLine +
+               "equipo Prestado: " + Equipoprestado + Environment.NewLine +
+               "cantidad: " + Cantidad + Environment.NewLine +
+               "estado: " + Estado + Environment.NewLine+
+               "------------------------------------------"+ Environment.NewLine;
+    }
 
-
+    public void GuardarEnArchivo(string ruta)
+    {
+        File.AppendAllText(ruta, ObtenerDatos());
+    }
 }
