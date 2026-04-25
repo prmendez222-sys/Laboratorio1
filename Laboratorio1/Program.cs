@@ -120,6 +120,36 @@ do
             Console.WriteLine("Presione enter para continuar");
             Console.ReadLine();
             break;
+        case "3":
+            bool correcto;
+            int codigoB;
+            do
+            {
+                Console.Write("ingrese el codigo de prestamo: ");
+                correcto = int.TryParse(Console.ReadLine(), out codigoB);
+            } while (!correcto);
+
+            if (prestamos.ContainsKey(codigoB)) prestamos[codigoB].mostrarDatos();
+            else Console.WriteLine("codigo no encontrado");
+
+            Console.WriteLine();
+            Console.WriteLine("presione enter para continuar");
+            Console.ReadLine();
+            break;
+        case "4":
+            prestamos.Clear();
+            Console.WriteLine("resgistros eliminados con exito");
+            Console.WriteLine();
+            Console.WriteLine("presione enter para continuar");
+            Console.ReadLine();
+            break;
+        case "5":
+            break;
+        default:
+            Console.WriteLine("opcion no valida");
+            Console.WriteLine("presione enter para continuar");
+            Console.ReadLine();
+            break;
     }
     Console.Clear();
 } while (opcion!="5");
