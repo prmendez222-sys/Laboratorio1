@@ -22,10 +22,88 @@ do
     {
         case "1":
             bool error;
-
+            int codigo=0;
             do
             {
+                string respuesta;
+                do
+                {
+                    Console.WriteLine("ingrese los datos del prestamista: ");
+                    Console.WriteLine();
+                    codigo++;
+                    Console.Write("Nombre: ");
+                    string nombre = Console.ReadLine();
+                    long carnet;
+                    do
+                    {
+                        Console.Write("Carnet: ");
+                        error = long.TryParse(Console.ReadLine(), out carnet);
+                    } while (!error);
 
+                    string carrera;
+                    do
+                    {
+                        Console.WriteLine("seleccione su carrera:  ");
+                        Console.WriteLine();
+                        Console.WriteLine("1. sistemas");
+                        Console.WriteLine("2. telecomunicaciones");
+                        Console.WriteLine("3. industrial");
+                        Console.WriteLine();
+                        Console.Write("ingrese una opcion: ");
+                        carrera = Console.ReadLine();
+
+                        switch (carrera)
+                        {
+                            case "1":
+                                carrera = "Sistemas";
+                                error = true;
+                                break;
+                            case "2":
+                                carrera = "telecomunicaciones";
+                                error = true;
+                                break;
+                            case "3":
+                                carrera = "industrial";
+                                error = true;
+                                break;
+                            default:
+                                Console.WriteLine();
+                                Console.WriteLine("esto es un campo obligatorio");
+                                Console.WriteLine();
+                                Console.WriteLine("Presione enter para continuar");
+                                Console.ReadLine();
+                                error = false;
+                                Console.Clear();
+                                break;
+                        }
+                    } while (!error);
+
+                    string equipoPrestado;
+                    Console.Write("producto Prestado: ");
+                    equipoPrestado = Console.ReadLine();
+
+                    int cantidad;
+                    do
+                    {
+                        Console.WriteLine("cantidad prestada: ");
+                        error = int.TryParse(Console.ReadLine(), out cantidad);
+                    } while (!error);
+
+                    string estado = "prestamo activo";
+
+                    Console.WriteLine();
+                    Console.WriteLine("Nombre: " + nombre);
+                    Console.WriteLine("carnet: "+carnet);
+                    Console.WriteLine("carrera: "+carrera);
+                    Console.WriteLine("equipo prestado: "+equipoPrestado);
+                    Console.WriteLine("cantidad: "+cantidad);
+                    Console.WriteLine();
+                    do
+                    {
+                        Console.Write("estos datos son correctos: ");
+                        respuesta= Console.ReadLine();
+                    } while (respuesta != "si" && respuesta != "no");
+                } while (respuesta!="si");
             } while (!error);
             break;
     }
@@ -35,7 +113,7 @@ class Prestamo
 {
     private int codigo;
     private string nombre;
-    private int carnet;
+    private long carnet;
     private string carrera;
     private string equipoPrestado;
     private int cantidad;
@@ -55,7 +133,7 @@ class Prestamo
             else throw new Exception("el nombre debe contener al menos 3 caracteres");
         }
     }
-    public int Carnet
+    public long Carnet
     {
         get { return carnet; }
         set 
