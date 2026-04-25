@@ -22,89 +22,91 @@ do
     {
         case "1":
             bool error;
-            int codigo=0;
+            int codigo = 0, cantidad = 0 ;
+            string nombre, carrera,equipoPrestado, estado; 
+            long carnet;
             do
             {
-                string respuesta;
+                Console.WriteLine("ingrese los datos del prestamista: ");
+                Console.WriteLine();
+                codigo++;
+                Console.Write("Nombre: ");
+                nombre = Console.ReadLine();
                 do
                 {
-                    Console.WriteLine("ingrese los datos del prestamista: ");
+                    Console.Write("Carnet: ");
+                    error = long.TryParse(Console.ReadLine(), out carnet);
+                } while (!error);
+
+                do
+                {
+                    Console.WriteLine("seleccione su carrera:  ");
                     Console.WriteLine();
-                    codigo++;
-                    Console.Write("Nombre: ");
-                    string nombre = Console.ReadLine();
-                    long carnet;
-                    do
-                    {
-                        Console.Write("Carnet: ");
-                        error = long.TryParse(Console.ReadLine(), out carnet);
-                    } while (!error);
-
-                    string carrera;
-                    do
-                    {
-                        Console.WriteLine("seleccione su carrera:  ");
-                        Console.WriteLine();
-                        Console.WriteLine("1. sistemas");
-                        Console.WriteLine("2. telecomunicaciones");
-                        Console.WriteLine("3. industrial");
-                        Console.WriteLine();
-                        Console.Write("ingrese una opcion: ");
-                        carrera = Console.ReadLine();
-
-                        switch (carrera)
-                        {
-                            case "1":
-                                carrera = "Sistemas";
-                                error = true;
-                                break;
-                            case "2":
-                                carrera = "telecomunicaciones";
-                                error = true;
-                                break;
-                            case "3":
-                                carrera = "industrial";
-                                error = true;
-                                break;
-                            default:
-                                Console.WriteLine();
-                                Console.WriteLine("esto es un campo obligatorio");
-                                Console.WriteLine();
-                                Console.WriteLine("Presione enter para continuar");
-                                Console.ReadLine();
-                                error = false;
-                                Console.Clear();
-                                break;
-                        }
-                    } while (!error);
-
-                    string equipoPrestado;
-                    Console.Write("producto Prestado: ");
-                    equipoPrestado = Console.ReadLine();
-
-                    int cantidad;
-                    do
-                    {
-                        Console.WriteLine("cantidad prestada: ");
-                        error = int.TryParse(Console.ReadLine(), out cantidad);
-                    } while (!error);
-
-                    string estado = "prestamo activo";
-
+                    Console.WriteLine("1. sistemas");
+                    Console.WriteLine("2. telecomunicaciones");
+                    Console.WriteLine("3. industrial");
                     Console.WriteLine();
-                    Console.WriteLine("Nombre: " + nombre);
-                    Console.WriteLine("carnet: "+carnet);
-                    Console.WriteLine("carrera: "+carrera);
-                    Console.WriteLine("equipo prestado: "+equipoPrestado);
-                    Console.WriteLine("cantidad: "+cantidad);
-                    Console.WriteLine();
-                    do
+                    Console.Write("ingrese una opcion: ");
+                    carrera = Console.ReadLine();
+
+                    switch (carrera)
                     {
-                        Console.Write("estos datos son correctos: ");
-                        respuesta= Console.ReadLine();
-                    } while (respuesta != "si" && respuesta != "no");
-                } while (respuesta!="si");
+                        case "1":
+                            carrera = "Sistemas";
+                            error = true;
+                            break;
+                        case "2":
+                            carrera = "telecomunicaciones";
+                            error = true;
+                            break;
+                        case "3":
+                            carrera = "industrial";
+                            error = true;
+                            break;
+                        default:
+                            Console.WriteLine();
+                            Console.WriteLine("esto es un campo obligatorio");
+                            Console.WriteLine();
+                            Console.WriteLine("Presione enter para continuar");
+                            Console.ReadLine();
+                            error = false;
+                            Console.Clear();
+                            break;
+                    }
+                } while (!error);
+
+                Console.WriteLine();
+
+                Console.Write("producto Prestado: ");
+                equipoPrestado = Console.ReadLine();
+
+                do
+                {
+                    Console.Write("cantidad prestada: ");
+                    error = int.TryParse(Console.ReadLine(), out cantidad);
+                } while (!error);
+
+                estado = "prestamo activo";
+                Console.WriteLine();
+                try
+                {
+                    Prestamo p1 = new Prestamo(codigo,nombre,carnet,carrera,equipoPrestado,cantidad,estado);
+                    p1.GuardarEnArchivo(ruta);
+                    prestamos.Add(codigo, p1);
+                    error = true;
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine();
+                    Console.WriteLine("presione enter para continuar");
+                    Console.ReadLine();
+                    error = false;
+                    Console.Clear();
+                }
             } while (!error);
+            
+            Console.WriteLine("datos guardados con exito");
+            Thread.Sleep(2000);
             break;
     }
     Console.Clear();
@@ -164,7 +166,7 @@ class Prestamo
         set { estado = value; }
     }
 
-    public Prestamo(int codigo, string nombre, int carnet, string carrera, string equipoprestado, int cantidad, string estado)
+    public Prestamo(int codigo, string nombre, long carnet, string carrera, string equipoprestado, int cantidad, string estado)
     {
         Codigo = codigo;
         Nombre = nombre;
