@@ -7,13 +7,15 @@ string ruta = Path.Combine
                  Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                  "prestamos.txt"
               );
-
+int codigo = 0;
 string opcion;
 do
 {
     Console.WriteLine("1. Realizar un Prestamo");
     Console.WriteLine("2. ver los Prestamos realizados");
-    Console.WriteLine("3. Salir");
+    Console.WriteLine("3. Buscar prestamo");
+    Console.WriteLine("4. eliminar registros");
+    Console.WriteLine("5. Salir");
     Console.WriteLine();
     Console.Write("ingrese una opcion: ");
     opcion = Console.ReadLine();
@@ -22,7 +24,7 @@ do
     {
         case "1":
             bool error;
-            int codigo = 0, cantidad = 0 ;
+            int cantidad = 0 ;
             string nombre, carrera,equipoPrestado, estado; 
             long carnet;
             do
@@ -86,7 +88,7 @@ do
                     error = int.TryParse(Console.ReadLine(), out cantidad);
                 } while (!error);
 
-                estado = "prestamo activo";
+                estado = "activo";
                 Console.WriteLine();
                 try
                 {
@@ -108,9 +110,19 @@ do
             Console.WriteLine("datos guardados con exito");
             Thread.Sleep(2000);
             break;
+        case "2":
+            Console.WriteLine("registros de prestamos: ");
+            Console.WriteLine();
+            foreach (KeyValuePair<int, Prestamo> p in prestamos)
+            {
+                p.Value.mostrarDatos();
+            }
+            Console.WriteLine("Presione enter para continuar");
+            Console.ReadLine();
+            break;
     }
     Console.Clear();
-} while (opcion!="3");
+} while (opcion!="5");
 class Prestamo
 {
     private int codigo;
@@ -192,5 +204,18 @@ class Prestamo
     public void GuardarEnArchivo(string ruta)
     {
         File.AppendAllText(ruta, ObtenerDatos());
+    }
+
+    public void mostrarDatos()
+    {
+        Console.WriteLine("codigo: "+Codigo);
+        Console.WriteLine("nombre: "+Nombre);
+        Console.WriteLine("carnet: "+Carnet);
+        Console.WriteLine("carrera: "+Carrera);
+        Console.WriteLine("equipo Prestado: "+Equipoprestado);
+        Console.WriteLine("cantidad: "+Cantidad);
+        Console.WriteLine("Estado: "+Estado);
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine();
     }
 }
